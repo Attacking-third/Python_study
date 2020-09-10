@@ -1,0 +1,133 @@
+# 1P와 2P의 섯다 대결
+    # 2명이서 4벌의 1 ~ 10으로 치는 것으로 가정
+
+# 섯다 족보 순서
+
+Hand_Ranking = ("장땡", "9땡", "8땡", "7땡", "6땡", "5땡", "4땡", "3땡", "2땡", "1땡", "알리", "독사", "구삥", "장삥", "장사", "세륙", "갑오", "9끗", "8끗", "7끗", "6끗", "5끗", "4끗", "3끗", "2끗", "1끗", "망통")
+
+# 1P 손패 출력
+
+import random
+
+deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+hand = [random.choice(deck) for i in range(2)]
+
+hand.sort()
+
+print("1P의 손패는:", hand)
+
+if hand[0] == hand[1] == 10:
+    print("1P의 족보는: 장땡")
+    one_P = "장땡"
+
+elif hand[0] == hand[1]:
+    print("1P의 족보는: ",hand[0], "땡", sep = "")
+    one_P = str(str(hand[0])+"땡")
+
+elif hand == [1, 2]:
+    print("1P의 족보는: 알리")
+    one_P = "알리"
+
+elif hand == [1, 4]:
+    print("1P의 족보는: 독사")
+    one_P = "독사"
+
+elif hand == [1, 9]:
+    print("1P의 족보는: 구삥")
+    one_P = "구삥"
+
+elif hand == [1, 10]:
+    print("1P의 족보는: 장삥")
+    one_P = "장삥"
+
+elif hand == [4, 10]:
+    print("1P의 족보는: 장사")
+    one_P = "장사"
+
+elif hand == [4, 6]:
+    print("1P의 족보는: 세륙")
+    one_P = "세륙"
+
+elif (hand[0] + hand[1]) % 10 == 9:
+    print("1P의 족보는: 갑오")
+    one_P = "갑오"
+
+elif (hand[0] + hand[1]) % 10 == 0:
+    print("1P의 족보는: 망통")
+    one_P = "망통"
+
+else:
+    print("1P의 족보는: ",(hand[0] + hand[1]) % 10, "끗", sep = "")
+    one_P = str(str((hand[0] + hand[1]) % 10)+"끗")
+
+# 2P 손패 출력
+
+import random
+
+deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+hand = [random.choice(deck) for i in range(2)]
+
+hand.sort()
+
+print("2P의 손패는:", hand)
+
+if hand[0] == hand[1] == 10:
+    print("2P의 족보는: 장땡")
+    two_P = "장땡"
+
+elif hand[0] == hand[1]:
+    print("2P의 족보는: ",hand[0], "땡", sep = "")
+    two_P = str(str(hand[0])+"땡")
+
+elif hand == [1, 2]:
+    print("2P의 족보는: 알리")
+    two_P = "알리"
+
+elif hand == [1, 4]:
+    print("2P의 족보는: 독사")
+    two_P = "독사"
+
+elif hand == [1, 9]:
+    print("2P의 족보는: 구삥")
+    two_P = "구삥"
+
+elif hand == [1, 10]:
+    print("2P의 족보는: 장삥")
+    two_P = "장삥"
+
+elif hand == [4, 10]:
+    print("2P의 족보는: 장사")
+    two_P = "장사"
+
+elif hand == [4, 6]:
+    print("2P의 족보는: 세륙")
+    two_P = "세륙"
+
+elif (hand[0] + hand[1]) % 10 == 9:
+    print("2P의 족보는: 갑오")
+    two_P = "갑오"
+
+elif (hand[0] + hand[1]) % 10 == 0:
+    print("2P의 족보는: 망통")
+    two_P = "망통"
+
+else:
+    print("2P의 족보는: ",(hand[0] + hand[1]) % 10, "끗", sep = "")
+    two_P = str(str((hand[0] + hand[1]) % 10)+"끗")
+
+# 승패결정
+print("결과는 과연???")
+
+Hand_Ranking = ("장땡", "9땡", "8땡", "7땡", "6땡", "5땡", "4땡", "3땡", "2땡", "1땡", "알리", "독사", "구삥", "장삥", "장사", "세륙", "갑오", "9끗", "8끗", "7끗", "6끗", "5끗", "4끗", "3끗", "2끗", "1끗", "망통")
+
+one_P_rank = int(Hand_Ranking.index(one_P))
+two_P_rank = int(Hand_Ranking.index(two_P))
+
+if one_P_rank < two_P_rank:
+    print("1P의 승리!")
+elif one_P_rank == two_P_rank:
+    print("무승부! 묻고 더블로 가!")
+else:
+    print("2P의 승리!")
