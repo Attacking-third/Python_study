@@ -1,0 +1,243 @@
+# t회의 섯다 게임중 해당 족보가 이길 수 있는 확률
+    # 2명이서 4벌의 1 ~ 10으로 치는 것으로 가정
+
+t = 0
+try_win = 0
+against_win = 0
+draw = 0
+
+# 자기 손패를 직접 입력
+a = input("첫 번째 손패는?: ")
+b = input("두 번째 손패는?: ")
+try_hand = [a, b]
+try_hand.sort()
+
+
+if try_hand[0] == try_hand[1] == 10:
+    print("승률을 알고 싶은 족보는: 장땡")
+    try_rank = "장땡"
+
+elif try_hand[0] == try_hand[1]:
+    print("승률을 알고 싶은 족보는: ",try_hand[0], "땡", sep = "")
+    try_rank = str(str(try_hand[0])+"땡")
+
+elif try_hand == [1, 2]:
+    print("승률을 알고 싶은 족보는: 알리")
+    try_rank = "알리"
+
+elif try_hand == [1, 4]:
+    print("승률을 알고 싶은 족보는: 독사")
+    try_rank = "독사"
+
+elif try_hand == [1, 9]:
+    print("승률을 알고 싶은 족보는: 구삥")
+    try_rank = "구삥"
+
+elif try_hand == [1, 10]:
+    print("승률을 알고 싶은 족보는: 장삥")
+    try_rank = "장삥"
+
+elif try_hand == [4, 10]:
+    print("승률을 알고 싶은 족보는: 장사")
+    try_rank = "장사"
+
+elif try_hand == [4, 6]:
+    print("승률을 알고 싶은 족보는: 세륙")
+    try_rank = "세륙"
+
+elif (try_hand[0] + try_hand[1]) % 10 == 9:
+    print("승률을 알고 싶은 족보는: 갑오")
+    try_rank = "갑오"
+
+elif (try_hand[0] + try_hand[1]) % 10 == 0:
+    print("승률을 알고 싶은 족보는: 망통")
+    try_rank = "망통"
+
+else:
+    print("승률을 알고 싶은 족보는: ",(try_hand[0] + try_hand[1]) % 10, "끗", sep = "")
+    try_rank = str(str((try_hand[0] + try_hand[1]) % 10)+"끗")
+
+Hand_Ranking = ("장땡", "9땡", "8땡", "7땡", "6땡", "5땡", "4땡", "3땡", "2땡", "1땡", "알리", "독사", "구삥", "장삥", "장사", "세륙", "갑오", "9끗", "8끗", "7끗", "6끗", "5끗", "4끗", "3끗", "2끗", "1끗", "망통")
+try_hand_rank =  int(Hand_Ranking.index(try_rank))
+
+
+while t != 100000:
+
+    import random # 상대방 손패 랜덤 추출
+
+    deck = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    against_hand = [random.choice(deck) for i in range(2)]
+
+    against_hand.sort()
+
+    if against_hand[0] == against_hand[1] == 10:
+        against_P = "장땡"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand[0] == against_hand[1]:
+        against_P = str(str(against_hand[0])+"땡")
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [1, 2]:
+        against_P = "알리"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [1, 4]:
+        against_P = "독사"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [1, 9]:
+        against_P = "구삥"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [1, 10]:
+        against_P = "장삥"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [4, 10]:
+        against_P = "장사"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif against_hand == [4, 6]:
+        against_P = "세륙"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif (against_hand[0] + against_hand[1]) % 10 == 9:
+        against_P = "갑오"
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    elif (against_hand[0] + against_hand[1]) % 10 == 0:
+        against_P = "망통"
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+    else:
+        against_P = str(str((against_hand[0] + against_hand[1]) % 10)+"끗")
+
+        against_hand_rank = int(Hand_Ranking.index(against_P))
+
+        if try_hand_rank < against_hand_rank:
+            t += 1
+            try_win += 1
+        elif try_hand_rank > against_hand_rank:
+            t += 1
+            against_win += 1
+        else:
+            t += 1
+            draw += 1
+
+# 통계출력
+print("해당 족보로 ", "t", "번 시뮬레이션 대결을 한 결과", sep = "")
+print("승리 횟수:", try_win)
+print("무승부 횟수:", draw)
+print("패배 횟수:", against_win)
+print("승률=" , try_win / t * 100, '%', sep="")
