@@ -1,0 +1,78 @@
+# 러시안 룰렛
+
+
+
+
+
+import time
+import random
+
+time.sleep(1)
+
+# 환영 메시지 출력
+print("Welcome to Russian Roulette")
+
+time.sleep(1)
+
+penalty = input("What's the penalty?: ")
+
+# 사람 수 입력
+# 숫자 이외의 값을 입력하는 경우 에러처리
+while True:
+    print("How many people?")
+    n = input("input number: ")
+
+    try:
+        n = int(n)
+    except ValueError:
+        print()
+        print('Input a number')
+        print()
+        continue
+    else:
+        print()
+        print("Ok {} People".format(n))
+        break
+
+time.sleep(0.5)
+print()
+print("Guns Being Reloaded")
+print()
+
+# 총알 장전
+for i in range(n):
+    time.sleep(0.5)
+    print("Bullet %d has reloaded!" % (i+1))
+    print()
+
+print("Time to Shoot!")
+
+# 탄창 설정
+bullets = [0] * n
+bang = random.randrange(1,n)
+bullets[bang] = 1
+
+# 룰렛 시작
+for i in range(n):
+    input("Player {}! press enter to shoot!".format(i+1))
+    print()
+    for v in ["Three!", "Two!", "One!"]:
+        time.sleep(0.67)
+        print(v, end = "\n\n")
+    if bullets[i] == 1:
+        print()
+        print("Bang! Player {} is dead!".format(i+1))
+        print()
+        print("    Player {}. You know what to do: {}".format(i+1, penalty))
+        break
+    else:
+        print()
+        print("Click! Nothing Happened...")
+        print()
+        print("Give the gun to the Player {}".format(i+2))
+        print()
+        time.sleep(1)
+
+print()
+time.sleep(1)
+print("Game Over")
