@@ -1,0 +1,134 @@
+# 도리짓고 땡
+# 3장으로 10의 배수를 만들고 남은 두장으로 족보를 따지는 게임
+
+# 2장의 족보
+
+Hand_Ranking = ("장땡", "9땡", "8땡", "7땡", "6땡", "5땡", "4땡", "3땡", "2땡", "1땡", "알리", "독사", "구삥", "장삥", "장사", "세륙", "갑오", "9끗", "8끗", "7끗", "6끗", "5끗", "4끗", "3끗", "2끗", "1끗", "망통")
+
+
+# 짓는 법: 짓는 법은 순서가 필요없어서 dict형으로 함.
+    # 사전의 name을 리스트로 쓸 수 없음
+    # KEY는 immutable해야 하기 때문
+three_Cards_Combi = {
+(1, 1, 8): "콩콩팔",
+(1, 2, 7): "삐리칠",
+(1, 3, 6): "물삼육",
+(1, 4, 5): "빽새오",
+(1, 9, 10): "삥구장",
+(2 ,2, 6): "니니육",
+(2, 3, 5): "이삼오",
+(2, 8, 10): "이판장",
+(3, 3, 4): "심심새",
+(3, 7, 10): "삼칠장",
+(3, 8, 9): "삼빡구",
+(2, 4, 4): "살살이",
+(4, 6, 10): "사륙장",
+(4, 7, 9): "사칠구",
+(5, 5, 10): "꼬꼬장",
+(5, 6, 9): "오륙구",
+(5, 7, 8): "오지발",
+(6, 6, 8): "쭉쭉팔",
+(6, 7, 7): "철철육",
+(4, 8, 8): "팍팍싸",
+(2, 9, 9): "구구리"
+}
+
+# 섯다 족보 정하는 함수
+def decide_rank(k):
+    if k[1][0] == k[1][1] == 10:
+        return int(Hand_Ranking.index("장땡"))
+
+    elif k[1][0] == k[1][1]:
+        return int(Hand_Ranking.index(str(k[1][0])+"땡"))
+
+    elif [k[1][0], k[1][1]] == [1, 2]:
+        return int(Hand_Ranking.index("알리"))
+
+    elif [k[1][0], k[1][1]] == [1, 4]:
+        return int(Hand_Ranking.index("독사"))
+
+    elif [k[1][0], k[1][1]] == [1, 9]:
+        return int(Hand_Ranking.index("구삥"))
+
+    elif [k[1][0], k[1][1]] == [1, 10]:
+        return int(Hand_Ranking.index("장삥"))
+
+    elif [k[1][0], k[1][1]] == [4, 10]:
+        return int(Hand_Ranking.index("장사"))
+
+    elif [k[1][0], k[1][1]] == [4, 6]:
+        return int(Hand_Ranking.index("세륙"))
+
+    elif (k[1][0] + k[1][1]) % 10 == 9:
+        return int(Hand_Ranking.index("갑오"))
+
+    elif (k[1][0] + k[1][1]) % 10 == 0:
+        return int(Hand_Ranking.index("망통"))
+
+    else:
+        return int(Hand_Ranking.index(str((k[1][0] + k[1][1]) % 10)+"끗"))
+
+hand = ["?", "?", "?", "?", "?"]
+
+# 입력받기
+    # 20장으로 하는게 원칙이기 때문에 이미 두장 빠지면 다시 시행
+for i in range(5):
+        while True:
+            print("당신의 현재 손패는?:", hand)
+            print("당신의 {}번째 손패를 입력하세요.".format(i+1))
+            hand[i] = input("{}번째 입력:".format(i+1))
+            print()
+
+            try:
+                hand[i] = int(hand[i])
+            except ValueError:
+                print()
+                print('패를 1~10의 숫자로 입력하세요!')
+                print()
+                continue
+            else:
+                if not 0 < hand[i] < 11:
+                    print()
+                    print("1에서 10사이의 패만 입력하세요")
+                    print()
+                    continue
+                elif hand.count(hand[i]) > 2:
+                    print()
+                    print("{}는 이미 두장 빠졌습니다.".format(hand[i]))
+                    print()
+                    continue
+                else:
+                    break
+
+hand.sort()
+
+# 지어지는지 확인하는 함수
+check_Combi = [[0,1,2,3,4], [0,1,3,2,4], [0,1,4,2,3], [0,2,3,1,4], [0,2,4,1,3], [0,3,4,1,2], [1,2,3,0,4], [1,2,4,0,3], [1,3,4,0,2], [2,3,4,0,1]]
+
+made_Hand = []
+
+for c1, c2, c3, c4, c5 in check_Combi:
+    if (hand[c1] + hand[c2] + hand[c3])%10 == 0:
+        made_Hand.append([(hand[c1],hand[c2],hand[c3]), [hand[c4], hand[c5]]])
+
+# 황이면 황을 출력
+if made_Hand == []:
+    print()
+    print("당신의 족보는?")
+    print("짓는데 실패! 황!")
+
+# 지어지는지 확인하고 지어지면 나머지 두 수는 따로 리스트로 저장한다.
+else:
+    for i in range(len(made_Hand)):
+        made_Hand[i].append(decide_rank(made_Hand[i]))
+
+    best_combi = min(made_Hand[i][2] for i in range(len(made_Hand)))
+
+    for i in range(len(made_Hand)):
+        if best_combi == made_Hand[i][2]:
+            best_combi_Three = made_Hand[i][0]
+            best_combi_Two = made_Hand[i][2]
+
+    print()
+    print("당신의 족보는?")
+    print("{}짓고! {}!".format(three_Cards_Combi[best_combi_Three], Hand_Ranking[best_combi_Two]))
