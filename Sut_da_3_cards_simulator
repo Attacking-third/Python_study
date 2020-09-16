@@ -1,0 +1,111 @@
+# 3장 섯다를 치는데 2장을 들고 있는 상태에서 나머지 패를 안보고 승률 계산
+
+t = 0
+try_win = 0
+against_win = 0
+draw = 0
+Hand_Ranking = ("장땡", "9땡", "8땡", "7땡", "6땡", "5땡", "4땡", "3땡", "2땡", "1땡", "알리", "독사", "구삥", "장삥", "장사", "세륙", "갑오", "9끗", "8끗", "7끗", "6끗", "5끗", "4끗", "3끗", "2끗", "1끗", "망통")
+
+# 원하는 반복 횟수
+
+n = 10000
+
+# 화투패 2장의 Ranking을 정하는 함수
+
+def decide_rank(a, b):
+    if a == b == 10:
+        return int(Hand_Ranking.index("장땡"))
+
+    elif a == b:
+        return int(Hand_Ranking.index(str(a)+"땡"))
+
+    elif [a, b] == [1, 2]:
+        return int(Hand_Ranking.index("알리"))
+
+    elif [a, b] == [1, 4]:
+        return int(Hand_Ranking.index("독사"))
+
+    elif [a, b] == [1, 9]:
+        return int(Hand_Ranking.index("구삥"))
+
+    elif [a, b] == [1, 10]:
+        return int(Hand_Ranking.index("장삥"))
+
+    elif [a, b] == [4, 10]:
+        return int(Hand_Ranking.index("장사"))
+
+    elif [a, b] == [4, 6]:
+        return int(Hand_Ranking.index("세륙"))
+
+    elif (a + b) % 10 == 9:
+        return int(Hand_Ranking.index("갑오"))
+
+    elif (a + b) % 10 == 0:
+        return int(Hand_Ranking.index("망통"))
+
+    else:
+        return int(Hand_Ranking.index(str((a + b) % 10)+"끗"))
+
+# 자기 손패를 직접 입력 (뽑으면 카드 없어짐)
+
+first_card = 1
+second_card = 2
+
+import random
+
+while t != n:
+
+    try_hand = [first_card, second_card]
+    cards = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10]
+
+    cards.pop(cards.index(try_hand[0]))
+    cards.pop(cards.index(try_hand[1]))
+
+    against_hand = []
+    against_hand_first = [random.choice(cards) for i in range(1)] # 상대패 하나하나 선택
+    cards.pop(cards.index(against_hand_first[0]))
+    against_hand.append(against_hand_first[0])
+
+    against_hand_second = [random.choice(cards) for i in range(1)] # 상대패 하나하나 선택
+    cards.pop(cards.index(against_hand_second[0]))
+    against_hand.append(against_hand_second[0])
+
+    against_hand_third = [random.choice(cards) for i in range(1)] # 상대패 하나하나 선택
+    cards.pop(cards.index(against_hand_third[0]))
+    against_hand.append(against_hand_third[0])
+
+    against_hand.sort()
+
+    try_hand_third = [random.choice(cards) for i in range(1)] # 마지막 나의 패 랜덤 선택
+    try_hand.append(try_hand_third[0])
+
+    try_hand.sort()
+
+    try_case1 = decide_rank(try_hand[0], try_hand[1])
+    try_case2 = decide_rank(try_hand[0], try_hand[2])
+    try_case3 = decide_rank(try_hand[1], try_hand[2])
+
+    try_best_case = min(try_case1, try_case2, try_case3)
+
+    against_case1 = decide_rank(against_hand[0], against_hand[1])
+    against_case2 = decide_rank(against_hand[0], against_hand[2])
+    against_case3 = decide_rank(against_hand[1], against_hand[2])
+
+    against_best_case = min(against_case1, against_case2, against_case3)
+
+    if try_best_case < against_best_case:
+        t += 1
+        try_win += 1
+    elif try_best_case > against_best_case:
+        t += 1
+        against_win += 1
+    else:
+        t += 1
+        draw += 1
+
+print("알아보고자 하는 카드는:", first_card, "와 ", second_card, " 그리고 ?", sep="")
+print("2장의 카드와 랜덤 1장으로 ", n, "번 시뮬레이션 대결을 한 결과", sep = "")
+print("승리 횟수:", try_win)
+print("무승부 횟수:", draw)
+print("패배 횟수:", against_win)
+print("승률: " , round(try_win / t * 100, 2), '%', sep="")
