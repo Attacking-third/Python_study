@@ -1,0 +1,167 @@
+# 틱택토 게임
+
+
+# 현재 플레이 상황을 보여주는 함수
+
+current_Board = [[" "]*3 for _ in range(3)]
+    # 0으로 표현된 곳이 중립지역
+def show_board():
+    print("Current board")
+    for x in current_Board:
+        for y in x:
+            print(y, end="ㅣ")
+        print("\n--------")
+    print()
+
+show_board()
+
+# 플레이어에게 선택지를 보여주는 함수
+choice_Board = [[1,2,3], [4,5,6], [7,8,9]]
+
+def show_choice():
+    print("Put your Marker!")
+    for x in choice_Board:
+        for y in x:
+            print(y, end="ㅣ")
+        print("\n--------")
+    print()
+
+show_choice()
+
+
+
+# Player A가 두는 함수
+def Player_A_Move():
+    while True:
+        Player_A = input("Player A, Choose your Place: ")
+        # 입력을 여기에 두어야 돌아가면서 입력 가능 continue를 만났을 때 다시 돌아옴.
+        if Player_A not in ["1","2","3","4","5","6","7","8","9"]:
+            print("Choose from One to Nine")
+            continue
+
+        Player_A = int(Player_A)
+
+        if Player_A in choice_Board[0]:
+            current_Board[0][Player_A - 1] = "A"
+            choice_Board[0][Player_A - 1] = "A"
+            show_board()
+            show_choice()
+            break
+
+        elif Player_A in choice_Board[1]:
+            current_Board[1][Player_A - 4] = "A"
+            choice_Board[1][Player_A - 4] = "A"
+            show_board()
+            show_choice()
+            break
+
+        elif Player_A in choice_Board[2]:
+            current_Board[2][Player_A - 7] = "A"
+            choice_Board[2][Player_A - 7] = "A"
+            show_board()
+            show_choice()
+            break
+
+        else:
+            print("The Place is already occupied!")
+            continue
+
+# Player B가 두는 함수
+def Player_B_Move():
+    while True:
+        Player_B = input("Player B, Choose your Place: ")
+        # 입력을 여기에 두어야 돌아가면서 입력 가능 continue를 만났을 때 다시 돌아옴.
+        if Player_B not in ["1","2","3","4","5","6","7","8","9"]:
+            print("Choose from One to Nine")
+            continue
+
+        Player_B = int(Player_B)
+
+        if Player_B in choice_Board[0]:
+            current_Board[0][Player_B - 1] = "B"
+            choice_Board[0][Player_B - 1] = "B"
+            show_board()
+            show_choice()
+            break
+
+        elif Player_B in choice_Board[1]:
+            current_Board[1][Player_B - 4] = "B"
+            choice_Board[1][Player_B - 4] = "B"
+            show_board()
+            show_choice()
+            break
+
+        elif Player_B in choice_Board[2]:
+            current_Board[2][Player_B - 7] = "B"
+            choice_Board[2][Player_B - 7] = "B"
+            show_board()
+            show_choice()
+            break
+
+        else:
+            print("The Place is already occupied!")
+            continue
+
+'''
+for ta in range(1, 10):
+    Player_A_Move(ta)
+    # 이거 테스트 용으로 만들어서 쭉 다 출력되나 본 것인데
+    # ta 대신 a를 넣었더니 이걸 위에 a리스트에 뒤집어 씌어져서
+    # 정수 a를 a[]같은 형태로 쓸 수 없다고 오류남
+    # 그래서 a리스트를 current_Board로 수정함
+'''
+
+# 승패를 판정하는 함수
+
+# A의 승리를 판정하는 함수
+def A_wins():
+    if any(
+    [current_Board[0] == ["A", "A", "A"],
+    current_Board[1] == ["A", "A", "A"],
+    current_Board[2] == ["A", "A", "A"],
+    [current_Board[0][0], current_Board[1][0], current_Board[2][0]] == ["A", "A", "A"],
+    [current_Board[0][1], current_Board[1][1], current_Board[2][1]] == ["A", "A", "A"],
+    [current_Board[0][2], current_Board[1][2], current_Board[2][2]] == ["A", "A", "A"],
+    [current_Board[0][0], current_Board[1][1], current_Board[2][2]] == ["A", "A", "A"],
+    [current_Board[0][2], current_Board[1][1], current_Board[2][0]] == ["A", "A", "A"]]
+    ):
+        return True
+
+
+    # any안은 list로 묶어 주어야 한다! argument를 1개만 가지기 때문에!
+
+# B의 승리를 판정하는 함수
+def B_wins():
+    if any(
+    [current_Board[0] == ["B", "B", "B"],
+    current_Board[1] == ["B", "B", "B"],
+    current_Board[2] == ["B", "B", "B"],
+    [current_Board[0][0], current_Board[1][0], current_Board[2][0]] == ["B", "B", "B"],
+    [current_Board[0][1], current_Board[1][1], current_Board[2][1]] == ["B", "B", "B"],
+    [current_Board[0][2], current_Board[1][2], current_Board[2][2]] == ["B", "B", "B"],
+    [current_Board[0][0], current_Board[1][1], current_Board[2][2]] == ["B", "B", "B"],
+    [current_Board[0][2], current_Board[1][1], current_Board[2][0]] == ["B", "B", "B"]]
+    ):
+        return True
+
+
+
+moves = 0
+
+while True:
+    Player_A_Move()
+    if A_wins():
+        print("Winner is A!")
+        break
+    moves += 1
+
+    if moves == 9:
+        print("Draw!")
+        break
+
+    Player_B_Move()
+    B_wins()
+    if B_wins():
+        print("Winner is B!")
+        break
+    moves += 1
