@@ -1,0 +1,91 @@
+# 승패를 가리는 함수
+
+D_cnt = 0
+P1_cnt = 0
+P2_cnt = 0
+
+def decide(a, b):
+    global D_cnt
+    global P1_cnt
+    global P2_cnt
+    if a == b:
+        print("Draw")
+        D_cnt += 1
+    elif any([a == 0 and b == 1, a == 2 and b == 0, a == 1 and b == 2]):
+        print("{} wins!".format(P1_name))
+        P1_cnt += 1
+    elif any([b == 0 and a == 1, b == 2 and a == 0, b == 1 and a == 2]):
+        print("{} wins!".format(P2_name))
+        P2_cnt += 1
+
+
+# 가위바위보 값을 입력받는 함수
+def enter_1P():
+    while True:
+        print("1P turn\nRock = enter '0'\nScissors = enter '1'\nPaper = enter '2'")
+        P1_hand = input("1P's choice:")
+        print()
+        if P1_hand == "Please Stop":
+            import sys
+            sys.exit()
+        try:
+            P1_hand = int(P1_hand)
+        except ValueError:
+            print()
+            print('enter in numbers!')
+            print()
+            continue
+        else:
+            if not 0 <= P1_hand <= 2:
+                print()
+                print("enter from 0 to 2")
+                print()
+                continue
+            else:
+                return P1_hand
+                break
+
+def enter_2P():
+    while True:
+        print("2P turn\nRock = enter '0'\nScissors = enter '1'\nPaper = enter '2'")
+        P2_hand = input("2P's choice:")
+        print()
+        if P2_hand == "Please Stop":
+            import sys
+            sys.exit()
+        try:
+            P2_hand = int(P2_hand)
+        except ValueError:
+            print()
+            print('enter in numbers!')
+            print()
+            continue
+        else:
+            if not 0 <= P2_hand <= 2:
+                print()
+                print("enter from 0 to 2")
+                print()
+                continue
+            else:
+                return P2_hand
+                break
+
+# 이름을 입력받는 단계
+print("Welcome to Rock_Scissors_Paper")
+print()
+P1_name = input("1P, input your name: ")
+print()
+P2_name = input("2P, input your name: ")
+print()
+
+print("Let's Start infinte Game!")
+
+# 승부 무한 루프
+
+while True:
+    P1 = enter_1P()
+    P2 = enter_2P()
+    decide(P1, P2)
+    print("Current Score: {} : {}".format(P1_cnt, P2_cnt))
+    print("Draws: {}".format(D_cnt))
+    print()
