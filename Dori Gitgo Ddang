@@ -130,5 +130,5 @@ else:
             best_combi_Two = made_Hand[i][2]
 
     print()
-    print("당신의 족보는?")
+    print("당신의 족보는??")
     print("{}짓고! {}!".format(three_Cards_Combi[best_combi_Three], Hand_Ranking[best_combi_Two]))
