@@ -1,0 +1,152 @@
+import pygame
+import random
+import sys
+import io
+
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+
+pygame.init() # 초기화 (반드시 필요)
+
+# 화면 크기 설정
+screen_width = 1200
+screen_height = 800
+screen = pygame.display.set_mode((screen_width, screen_height))
+
+pygame.display.set_caption("말하기 평가")
+
+clock = pygame.time.Clock()
+
+background = pygame.image.load("C:\\Users\\User\\Desktop\\1stSuhaeng\\resources\\background.png")
+
+# 시스템에 있는 폰트를 가지고 온다.
+title_font = pygame.font.SysFont("malgungothic", 50)
+ready_font = pygame.font.SysFont("malgungothic", 150)
+contents_font = pygame.font.SysFont("malgungothic", 25)
+
+# 카운트 다운
+count_down_ready = 3
+count_down_test = 60
+
+questions = [
+"당신은 누구입니까?",
+"당신의 나이는 얼마입니까?",
+"당신의 가족은 몇명입니까?",
+"당신의 키는 몇cm입니까?",
+"당신의 몸무게는 몇kg입니까?",
+"당신의 취미는 무엇입니까?",
+"당신의 국어성적은 몇점입니까?",
+"당신의 영어성적은 몇점입니까?",
+"당신의 수학성적은 몇점입니까?",
+"당신의 몇반입니까?",
+"당신의 몇번입니까?",
+"당신의 국적은 어디입니까?",
+"당신의 전화번호는 무엇입니까?",
+"당신의 아버지 성함은 무엇입니까?",
+"당신의 어머니 성함은 무엇입니까?",
+]
+
+before_main_message = title_font.render("엔터를 눌러 5문장을 뽑으세요", True, (255, 255, 255))
+after_main_message = title_font.render("5문장에 대한 응답", True, (255, 255, 255))
+Q1 = contents_font.render(questions[0], True, (255, 255, 255))
+Q2 = contents_font.render(questions[1], True, (255, 255, 255))
+Q3 = contents_font.render(questions[2], True, (255, 255, 255))
+Q4 = contents_font.render(questions[3], True, (255, 255, 255))
+Q5 = contents_font.render(questions[4], True, (255, 255, 255))
+Q6 = contents_font.render(questions[5], True, (255, 255, 255))
+Q7 = contents_font.render(questions[6], True, (255, 255, 255))
+Q8 = contents_font.render(questions[7], True, (255, 255, 255))
+Q9 = contents_font.render(questions[8], True, (255, 255, 255))
+Q10 = contents_font.render(questions[9], True, (255, 255, 255))
+Q11 = contents_font.render(questions[10], True, (255, 255, 255))
+Q12 = contents_font.render(questions[11], True, (255, 255, 255))
+Q13 = contents_font.render(questions[12], True, (255, 255, 255))
+Q14 = contents_font.render(questions[13], True, (255, 255, 255))
+Q15 = contents_font.render(questions[14], True, (255, 255, 255))
+screen_print = [
+[Q2, (90,145)],
+[Q3, (90,180)],
+[Q4, (90,215)],
+[Q5, (90,250)],
+[Q6, (90,285)],
+[Q7, (90,320)],
+[Q8, (90,355)],
+[Q9, (90,390)],
+[Q10, (90,425)],
+[Q11, (90,460)],
+[Q12, (90,495)],
+[Q13, (90,530)],
+[Q14, (90,565)],
+[Q15, (90,600)]
+]
+
+running = "before"
+while running == "before" or running == "ready" or running == "after":
+    while running == "before":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = "quit"
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    running = "ready"
+                    five_Qs = random.sample(screen_print, 5) # 중복없이 리스트에서 5개를 뽑아준다
+                    enter_time = pygame.time.get_ticks()
+
+
+        screen.blit(background, (0,0))
+        screen.blit(before_main_message, (300,40))
+        for i, v in screen_print:
+            screen.blit(i, v)
+
+        pygame.display.update()
+
+    while running == "ready":
+        dt = clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = "quit"
+
+        ready_time = count_down_ready - int((pygame.time.get_ticks() - enter_time) / 1000)
+        ready_time_show = ready_font.render("준비시간: " + str(ready_time) + "초", True, (255, 255, 255))
+
+        if ready_time >= 0:
+            screen.blit(background, (0,0))
+            screen.blit(ready_time_show, (150,250))
+            pygame.display.update()
+        if ready_time < 0:
+            running = "after"
+            start_time = pygame.time.get_ticks()
+
+    while running == "after":
+        dt = clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = "quit"
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = "before"
+
+        test_time = count_down_test - int((pygame.time.get_ticks() - start_time) / 1000)
+        test_time_show = title_font.render("남은시간: " + str(test_time)+"초", True, (255, 255, 255))
+        finish_show = title_font.render("끝", True, (255, 255, 255))
+
+        if test_time >= 0:
+            screen.blit(background, (0,0))
+            screen.blit(test_time_show, (850, 50))
+            screen.blit(after_main_message, (400,40))
+            for i, v in five_Qs:
+                screen.blit(i, v)
+        else:
+            screen.blit(background, (0,0))
+            screen.blit(finish_show, (1050, 50))
+            screen.blit(after_main_message, (400,40))
+            for i, v in five_Qs:
+                screen.blit(i, v)
+
+        pygame.display.update()
+
+
+
+# 이렇게 하면 x눌러서 닫았을 때 에러를 방지함.
+pygame.quit()
+quit()
